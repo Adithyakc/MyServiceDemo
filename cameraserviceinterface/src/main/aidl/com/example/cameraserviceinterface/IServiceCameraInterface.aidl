@@ -12,11 +12,15 @@ interface IServiceCameraInterface {
      * @brief Method to get the value of setting
      */
     Map getSettings();
-
+    /**
+     * @brief Method to set the value of camera
+     */
     void setCamera(String camId);
-
+    /**
+     * @brief Method to get the value of camera
+     */
     String getCamera();
-/**
+    /**
      * @brief Api to register async connection
      */
      void registerAsyncConnection(ICameraListener mCameraListener);

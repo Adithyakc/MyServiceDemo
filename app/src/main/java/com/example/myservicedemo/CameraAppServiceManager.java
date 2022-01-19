@@ -11,6 +11,9 @@ import static com.example.cameraserviceinterface.constants.CameraHmiServiceConst
 
 import java.util.HashMap;
 
+/**
+ * @brief Camera app service manager which will manage all service common functionality's.
+ */
 public class CameraAppServiceManager {
     CameraService mCameraService;
     Context mContext;
@@ -19,23 +22,58 @@ public class CameraAppServiceManager {
     String swing = "Swing Door Settings";
     String cargo = "Cargo Cam Dynamic Center lines";
     String trailer = "Trailer Camera Settings";
+
+    /**
+     * Member variable for keeping camera callback listeners
+     */
     private final RemoteCallbackList<ICameraListener>
             mCameraNotificationCallbackList = new RemoteCallbackList<>();
-
+    /**
+     * Member variable to store handler object
+     */
     private Handler mHandler = new Handler();
     /**
-     * Member variable to store camera status;
+     * Member variable to store camera delay setting;
      */
     private boolean mCameraStatus;
+    /**
+     * Member variable to store camera Guideline status;
+     */
     private boolean mCameraGuid;
+
+    /**
+     * Member variable to store camera Swing status;
+     */
     private boolean mCameraSwing;
+
+    /**
+     * Member variable to store camera Cargo status;
+     */
     private boolean mCameracargo;
+    /**
+     * Member variable to store camera Trailer status;
+     */
     private boolean mCameraTrailer;
-    private String mCameraId;
+    /**
+     * Member variable to store Shared preference object.
+     */
     SharedPreferences sh;
+    /**
+     * Member variable to store Shared preference object.
+     */
     SharedPreferences sh1;
+    /**
+     * Member variable to store Shared preference Editor object.
+     */
     SharedPreferences.Editor editor;
+    /**
+     * Member variable to store Shared preference Editor object.
+     */
     SharedPreferences.Editor editor1;
+    /**
+     * Static variable to store singleton object of this class
+     */
+    private String mCameraId;
     private static final CameraAppServiceManager CAMERA_APP_SERVICE_MANAGER = new
             CameraAppServiceManager();
 
@@ -48,6 +86,12 @@ public class CameraAppServiceManager {
     }
 
     private ICameraListener mCameraListener = new ICameraListener.Stub(){
+
+        /**
+         * @brief This api will be invoked in camera status change
+         * @param status : boolean value.
+         *        setId : String value.
+         */
         @Override
         public void notifyCameraSetting(String setId,boolean status) throws RemoteException {
 
@@ -81,14 +125,27 @@ public class CameraAppServiceManager {
          mContext = context;
     }
 
+    /**
+     * @brief Api to register async connection
+     * @param mCameraListener : ICameraListener object
+     */
+
     public void registerAsyncConnection(ICameraListener mCameraListener) throws RemoteException {
         mCameraNotificationCallbackList.register(mCameraListener);
     }
 
+    /**
+     * @brief Api to unregister async connection
+     * @param mCameraListener : ICameraListener object
+     */
     public void unregisterAsyncConnection(ICameraListener mCameraListener) throws RemoteException {
         mCameraNotificationCallbackList.unregister(mCameraListener);
     }
-
+    /**
+     * @brief Method to setting the value of camera settings.
+     * @param setId : setting name
+     *        status : status of the setting.(true or false).
+     */
     public void setSetting(String setId,boolean status){
        Log.d("SERVICEBTS","hoooo"+mCameraService);
        for (int i=0;i<2;i++){
@@ -101,6 +158,11 @@ public class CameraAppServiceManager {
         Log.d("CamSet","hello i got value"+mCameraStatus);
      }
 
+    /**
+     * @brief Method to notify the HMI.
+     * @return setting name and setting status.
+     */
+
      void notify(String cameraCode,boolean status){
          try {
              mCameraListener.notifyCameraSetting(cameraCode,status);
@@ -108,15 +170,20 @@ public class CameraAppServiceManager {
              e.printStackTrace();
          }
      }
+
+    /**
+     * @brief Method to get the setting values of the camera settings.
+     * @return setting name and setting status.
+     */
     public HashMap<String,Boolean> getSettings(){
-        Log.d("AESPA","getSetting status"+mCameraId+" "+mCameraStatus);
+
         HashMap<String,Boolean> hashMap = new HashMap<>();
         sh = mContext.getSharedPreferences("CAMERA SETTING",Context.MODE_PRIVATE);
         mCameraStatus = sh.getBoolean(delay,false);
         mCameraGuid = sh.getBoolean(guidline,false);
-//        mCameraSwing = sh.getBoolean(swing,false);
-//        mCameracargo = sh.getBoolean(cargo,false);
-//        mCameraTrailer = sh.getBoolean(trailer,false);
+        mCameraSwing = sh.getBoolean(swing,false);
+        mCameracargo = sh.getBoolean(cargo,false);
+        mCameraTrailer = sh.getBoolean(trailer,false);
         hashMap.put(delay,mCameraStatus);
         hashMap.put(guidline,mCameraGuid);
         hashMap.put(swing,false);
@@ -124,9 +191,15 @@ public class CameraAppServiceManager {
         hashMap.put(trailer,false);
         return hashMap;
     }
-
+    /**
+     * Member variable to store previous active camera.
+     */
 
     String mActiveCamera;
+    /**
+     * @brief Method to set the last active camera.
+     * @param camId : camera ID
+     */
     public void setCamera(String camId) {
         mActiveCamera = camId;
         sh1 = mContext.getSharedPreferences("CAMERA SETTING", Context.MODE_PRIVATE);
@@ -136,7 +209,10 @@ public class CameraAppServiceManager {
         Log.d("MyCam","CameraStatus"+sh1.getString("1",camId));
     }
 
-
+    /**
+     * @brief Method to get previous active camera
+     * @return camera : camera
+     */
     public String getCamera(){
         sh1 = mContext.getSharedPreferences("CAMERA SETTING", Context.MODE_PRIVATE);
         mActiveCamera = sh1.getString("1",mActiveCamera);

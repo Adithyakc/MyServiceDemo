@@ -18,11 +18,9 @@ public class CameraService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-
-//        Log.d("CameraService","OnBind");
         return new ServiceBaseInterface();
-
     }
+
 
     @Override
     public void onCreate() {
@@ -30,10 +28,15 @@ public class CameraService extends Service {
         mCameraAppServiceManager.setContext(getApplicationContext());
     }
 
-//    public CameraService() {
-////        mCameraAppServiceManager.setContext(getApplicationContext());
-//    }
 
+    /**
+     * @brief This function is called when service starts.
+     * @param intent : The Intent supplied to startService(Intent)
+     * @param flags : Additional data about this start request
+     * @param startId : A unique integer representing this specific request to start
+     * @return int : The return value indicates what semantics the system should use for the
+     *         service's
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("CameraService", "OnStart");
