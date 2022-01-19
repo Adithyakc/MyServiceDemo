@@ -1,7 +1,7 @@
-// IServiceCameraInterface.aidl
+
 package com.example.cameraserviceinterface;
 import com.example.cameraserviceinterface.ICameraListener;
-// Declare any non-default types here with import statements
+
 
 interface IServiceCameraInterface {
     /**

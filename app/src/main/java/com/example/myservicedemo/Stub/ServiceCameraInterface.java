@@ -2,14 +2,10 @@ package com.example.myservicedemo.Stub;
 
 import android.os.RemoteException;
 import android.util.Log;
-
 import com.example.cameraserviceinterface.ICameraListener;
 import com.example.cameraserviceinterface.IServiceCameraInterface;
 import com.example.myservicedemo.CameraAppServiceManager;
-
 import java.util.HashMap;
-import java.util.Map;
-
 public class ServiceCameraInterface extends IServiceCameraInterface.Stub {
 
     /**

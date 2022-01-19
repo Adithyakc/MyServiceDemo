@@ -8,19 +8,40 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.example.cameraserviceinterface.ICameraListener;
 import static com.example.cameraserviceinterface.constants.CameraHmiServiceConstants.TAG;
-
 import java.util.HashMap;
 
 /**
  * @brief Camera app service manager which will manage all service common functionality's.
  */
 public class CameraAppServiceManager {
+
+    /**
+     * Member variable to store CameraService object
+     */
     CameraService mCameraService;
+    /**
+     * Member variable to store context
+     */
     Context mContext;
+    /**
+     * Member variable to store Delay Settings;
+     */
     String delay  = "Camera Delay Settings";
+    /**
+     * Member variable to store Static Guideline Settings;
+     */
     String guidline = "Camera Static Guideline Settings";
+    /**
+     * Member variable to store Swing Door Settings;
+     */
     String swing = "Swing Door Settings";
+    /**
+     * Member variable to store Dynamic Center lines;
+     */
     String cargo = "Cargo Cam Dynamic Center lines";
+    /**
+     * Member variable to store Trailer Camera Settings;
+     */
     String trailer = "Trailer Camera Settings";
 
     /**
@@ -55,6 +76,10 @@ public class CameraAppServiceManager {
      */
     private boolean mCameraTrailer;
     /**
+     * Member variable to store camera id;
+     */
+    private String mCameraId;
+    /**
      * Member variable to store Shared preference object.
      */
     SharedPreferences sh;
@@ -69,11 +94,12 @@ public class CameraAppServiceManager {
     /**
      * Member variable to store Shared preference Editor object.
      */
+
     SharedPreferences.Editor editor1;
     /**
      * Static variable to store singleton object of this class
      */
-    private String mCameraId;
+
     private static final CameraAppServiceManager CAMERA_APP_SERVICE_MANAGER = new
             CameraAppServiceManager();
 
